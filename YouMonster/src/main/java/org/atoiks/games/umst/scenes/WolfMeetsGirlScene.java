@@ -16,7 +16,8 @@ public class WolfMeetsGirlScene extends HorizontalPage {
         timesIntimidated = 0;
         timesGreeted = 0;
 
-        switchPhase(0x0);
+        // only if girl is still on *track* we enter to phase 0, otherwise enter phase 1
+        switchPhase((boolean) scene.resources().get("drawRoad") ? 0x0 : 0x1);
     }
 
     private boolean nextPhase() {
@@ -146,6 +147,11 @@ public class WolfMeetsGirlScene extends HorizontalPage {
             case 0x27:
                 return switchPhase(0x1);
             case 0x37:
+                if (timesGreeted < 1) {
+                    // The story does say she wanders into the woods
+                    scene.resources().put("drawRoad", false);
+                    return scene.switchToScene(1);
+                }
                 return scene.gotoNextScene();
             case 0x22:
                 if (timesGreeted > 1) {
@@ -155,7 +161,7 @@ public class WolfMeetsGirlScene extends HorizontalPage {
         }
 
         if (!nextPhase()) {
-            // last phase, so we move on to next scene
+            // last phase, so we move on to scene according to condition
             return scene.gotoNextScene();
         }
         return true;

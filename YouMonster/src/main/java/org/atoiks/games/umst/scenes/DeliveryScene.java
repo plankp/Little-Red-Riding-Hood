@@ -41,6 +41,8 @@ public class DeliveryScene extends GameScene {
     private final int[] flowerPos = new int[120 * 2];
     private final int[] grassPos = new int[120 * 2];
 
+    private boolean drawRoad; // supplied by enter
+
     private static boolean rectCollide(final float[] pos1, final float[] box1, final float[] pos2, final float[] box2) {
         final float x1 = pos1[0];
         final float y1 = pos1[1];
@@ -66,6 +68,8 @@ public class DeliveryScene extends GameScene {
                 System.err.println(ex);
             }
         }
+
+        scene.resources().put("drawRoad", true);
     }
 
     @Override
@@ -86,6 +90,8 @@ public class DeliveryScene extends GameScene {
 
         wolfAnimTime = 0;
         girlAnimTime = 0;
+
+        drawRoad = (boolean) scene.resources().get("drawRoad");
     }
 
     private static void fillIntPos(final Random rnd, final int[] arr, final int xlo, final int xhi, final int ylo, final int yhi) {
@@ -188,19 +194,11 @@ public class DeliveryScene extends GameScene {
             }
         }
 
-        // Road to from the village to grandma's place
-        g.setColor(Color.gray);
-        g.fillRect(-WIDTH, HEIGHT / 2 - 30, WIDTH, HEIGHT / 2 + 30);
-
-        g.setColor(BROWN);
-        g.fillRect(-WIDTH, HEIGHT / 2 - 18, -WIDTH + 30, HEIGHT / 2 + 18);
-        g.fillRect(WIDTH - 30, HEIGHT / 2 - 18, WIDTH, HEIGHT / 2 + 18);
-
-        g.setColor(Color.black);
-        g.drawLine(-WIDTH, HEIGHT / 2 - 18, -WIDTH + 30, HEIGHT / 2 - 18);
-        g.drawLine(-WIDTH, HEIGHT / 2 + 18, -WIDTH + 30, HEIGHT / 2 + 18);
-        g.drawLine(WIDTH - 30, HEIGHT / 2 - 18, WIDTH, HEIGHT / 2 - 18);
-        g.drawLine(WIDTH - 30, HEIGHT / 2 + 18, WIDTH, HEIGHT / 2 + 18);
+        if (drawRoad) {
+            // Road to from the village to grandma's place
+            g.setColor(Color.gray);
+            g.fillRect(-WIDTH, HEIGHT / 2 - 30, WIDTH, HEIGHT / 2 + 30);
+        }
 
         this.drawWolf(g);
         this.drawGirl(g);
