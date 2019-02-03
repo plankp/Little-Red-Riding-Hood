@@ -30,7 +30,6 @@ public class DeliveryScene extends GameScene {
     private final Image[] wolfImg = new Image[4];
 
     private float wolfAnimTime = 0;
-    private byte wolfAnimFlag = 0;
     private boolean wolfInvert = false;
 
     private final float[] girlPos = new float[2];
@@ -129,15 +128,12 @@ public class DeliveryScene extends GameScene {
 
         girlPos[0] -= 1;
 
-        // Assumes wolf is back to idle phase,
-        // which no animating
-        wolfAnimFlag = 0;
-
+        boolean resetWolfTimer = true;
         if (Input.isKeyDown(KeyEvent.VK_LEFT)) {
             if ((wolfPos[0] -= 5) < -WIDTH) {
                 wolfPos[0] = -WIDTH;
             } else {
-                wolfAnimFlag = 1;
+                resetWolfTimer = false;
                 wolfInvert = false;
             }
         }
@@ -145,7 +141,7 @@ public class DeliveryScene extends GameScene {
             if ((wolfPos[0] += 5) > WIDTH - wolfBox[0]) {
                 wolfPos[0] = WIDTH - wolfBox[0];
             } else {
-                wolfAnimFlag = 1;
+                resetWolfTimer = false;
                 wolfInvert = true;
             }
         }
@@ -153,15 +149,19 @@ public class DeliveryScene extends GameScene {
             if ((wolfPos[1] -= 5) < 0) {
                 wolfPos[1] = 0;
             } else {
-                wolfAnimFlag = 1;
+                resetWolfTimer = false;
             }
         }
         if (Input.isKeyDown(KeyEvent.VK_DOWN)) {
             if ((wolfPos[1] += 5) > HEIGHT - wolfBox[1]) {
                 wolfPos[1] = HEIGHT - wolfBox[1];
             } else {
-                wolfAnimFlag = 1;
+                resetWolfTimer = false;
             }
+        }
+
+        if (resetWolfTimer) {
+            wolfAnimTime = 0;
         }
         return true;
     }
@@ -225,7 +225,7 @@ public class DeliveryScene extends GameScene {
         final float x = wolfPos[0];
         final float y = wolfPos[1];
 
-        final Image frame = wolfImg[wolfAnimFlag * (int) wolfAnimTime % wolfImg.length];
+        final Image frame = wolfImg[(int) wolfAnimTime % wolfImg.length];
         if (wolfInvert) {
             g.drawImage(frame, x + wolfBox[0], y, x, y + wolfBox[1]);
         } else {
