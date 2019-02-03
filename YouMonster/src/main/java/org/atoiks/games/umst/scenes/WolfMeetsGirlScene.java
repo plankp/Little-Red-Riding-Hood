@@ -109,7 +109,27 @@ public class WolfMeetsGirlScene extends HorizontalPage {
                 updateMessage("'See, Little Red Riding Hood, how pretty the flowers are about here - why do you not look round? I believe, too, that you do not hear how sweetly the little birds are singing; you walk gravely along as if you were going to school, while everything else out here in the wood is merry.'");
                 resetScrolling();
                 return true;
-// case 0x33: DONE
+            case 0x33:
+                updateMessage("Little Red Riding Hood raised her eyes,");
+                resetScrolling();
+                return true;
+            case 0x34:
+                updateMessage("and when she saw the sunbeams dancing here and there through the trees, and pretty flowers growing everywhere,");
+                resetScrolling();
+                return true;
+            case 0x35:
+                updateMessage("she thought:");
+                resetScrolling();
+                return true;
+            case 0x36:
+                updateMessage("'Suppose I take grandmother a fresh nosegay; that would please her too. It is so early in the day that I shall still get there in good time.'");
+                resetScrolling();
+                return true;
+            case 0x37:
+                updateMessage("So she ran from the path into the wood to look for flowers. And whenever she had picked one, she fancied that she saw a still prettier one farther on, and ran after it, and so got deeper and deeper into the wood.");
+                resetScrolling();
+                return true;
+// case 0x38: DONE
         }
         return false;
     }
@@ -125,7 +145,7 @@ public class WolfMeetsGirlScene extends HorizontalPage {
             case 0x12:
             case 0x27:
                 return switchPhase(0x1);
-            case 0x32:
+            case 0x37:
                 return scene.gotoNextScene();
             case 0x22:
                 if (timesGreeted > 1) {
