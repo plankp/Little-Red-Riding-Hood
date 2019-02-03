@@ -35,6 +35,9 @@ public class DeliveryScene extends GameScene {
 
     private final float[] childPos = new float[2];
     private final float[] childBox = new float[2];
+    private final Image[] childImg = new Image[9];
+
+    private float childAnimTime = 0;
 
     private final int[] flowerPos = new int[120 * 2];
     private final int[] grassPos = new int[120 * 2];
@@ -62,6 +65,14 @@ public class DeliveryScene extends GameScene {
                 System.err.println(ex);
             }
         }
+
+        for (int i = 0; i < childImg.length; ++i) {
+            try {
+                childImg[i] = ImageIO.read(this.getClass().getResourceAsStream("/girl/walk_" + i + ".png"));
+            } catch (IOException ex) {
+                System.err.println(ex);
+            }
+        }
     }
 
     @Override
@@ -71,8 +82,8 @@ public class DeliveryScene extends GameScene {
         wolfPos[0] = 0;
         wolfPos[1] = 0;
 
-        childBox[0] = 8;
-        childBox[1] = 12;
+        childBox[0] = childImg[0].getWidth(null);
+        childBox[1] = childImg[0].getHeight(null);
         childPos[0] = WIDTH;
         childPos[1] = (HEIGHT - childBox[1]) / 2;
 
@@ -103,6 +114,7 @@ public class DeliveryScene extends GameScene {
         // - failure: restart this section
 
         wolfAnimTime += dt * 5;
+        childAnimTime += dt * 6;
 
         // if you reached LRRH, story continues
         if (rectCollide(wolfPos, wolfBox, childPos, childBox)) {
@@ -224,8 +236,9 @@ public class DeliveryScene extends GameScene {
         final float x = childPos[0];
         final float y = childPos[1];
 
-        g.setColor(Color.red);
-        g.drawRect(x, y, x + childBox[0], y + childBox[1]);
+        // g.setColor(Color.red);
+        // g.drawRect(x, y, x + childBox[0], y + childBox[1]);
+        g.drawImage(childImg[(int) childAnimTime % childImg.length], x, y);
     }
 
     @Override
