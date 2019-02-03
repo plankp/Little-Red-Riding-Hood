@@ -27,8 +27,8 @@ public class DeliveryScene extends GameScene {
 
     private final float[] wolfPos = new float[2];
     private final float[] wolfBox = new float[2];
-    private final Image[] wolfImg = new Image[4];
 
+    private Image[] wolfImg; // supplied by init
     private float wolfAnimTime = 0;
     private boolean wolfInvert = false;
 
@@ -57,13 +57,7 @@ public class DeliveryScene extends GameScene {
 
     @Override
     public void init() {
-        for (int i = 0; i < wolfImg.length; ++i) {
-            try {
-                wolfImg[i] = ImageIO.read(this.getClass().getResourceAsStream("/wolf/walk_" + i + ".png"));
-            } catch (IOException ex) {
-                System.err.println(ex);
-            }
-        }
+        wolfImg = (Image[]) scene.resources().get("wolfImg");
 
         for (int i = 0; i < girlImg.length; ++i) {
             try {

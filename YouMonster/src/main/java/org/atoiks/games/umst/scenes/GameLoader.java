@@ -1,6 +1,11 @@
 package org.atoiks.games.umst.scenes;
 
+import java.io.IOException;
+
 import java.awt.Color;
+import java.awt.Image;
+
+import javax.imageio.ImageIO;
 
 import org.atoiks.games.framework2d.Scene;
 import org.atoiks.games.framework2d.IGraphics;
@@ -19,25 +24,39 @@ public final class GameLoader extends Scene {
     private float scale = 0.8f;
 
     @Override
+    public void init() {
+        final Image[] wolfImg = new Image[4];
+        for (int i = 0; i < wolfImg.length; ++i) {
+            try {
+                wolfImg[i] = ImageIO.read(this.getClass().getResourceAsStream("/wolf/walk_" + i + ".png"));
+            } catch (IOException ex) {
+                System.err.println(ex);
+            }
+        }
+
+        scene.resources().put("wolfImg", wolfImg);
+    }
+
+    @Override
     public void resize(int w, int h) {
         // fixed
     }
 
     @Override
     public boolean update(float dt) {
-        // elapsed += scale * dt;
-        // if (elapsed < -dt) {
+        elapsed += scale * dt;
+        if (elapsed < -dt) {
             return scene.gotoNextScene();
-        // }
+        }
 
-        // if (elapsed > 1.1) {
-        //     scale = -0.8f;
-        // } else if (elapsed > 0.95 && scale > 0) {
-        //     scale = 0.05f;
-        // } else if (elapsed > 0.75 && scale > 0) {
-        //     scale = 0.24f;
-        // }
-        // return true;
+        if (elapsed > 1.1) {
+            scale = -0.8f;
+        } else if (elapsed > 0.95 && scale > 0) {
+            scale = 0.05f;
+        } else if (elapsed > 0.75 && scale > 0) {
+            scale = 0.24f;
+        }
+        return true;
     }
 
     @Override
