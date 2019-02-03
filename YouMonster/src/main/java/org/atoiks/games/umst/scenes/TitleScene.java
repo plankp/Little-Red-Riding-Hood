@@ -7,6 +7,7 @@ public class TitleScene extends HorizontalPage {
     private byte phase;
 
     private static String[] title = {
+        "(... hit enter to continue ...)",
         "Once upon a time...",
         "There was a dear little girl who was loved by everyone who looked at her,",
         "but most of all by her grandmother.",
