@@ -209,7 +209,7 @@ public class DeliveryScene extends GameScene {
         g.drawLine(WIDTH - 30, HEIGHT / 2 + 18, WIDTH, HEIGHT / 2 + 18);
 
         this.drawWolf(g);
-        this.drawgirl(g);
+        this.drawGirl(g);
     }
 
     private void drawGrass(final IGraphics g, final float px, final float py) {
@@ -233,7 +233,7 @@ public class DeliveryScene extends GameScene {
         }
     }
 
-    private void drawgirl(final IGraphics g) {
+    private void drawGirl(final IGraphics g) {
         final Image frame = girlImg[(int) girlAnimTime % girlImg.length];
         final float x = girlPos[0] - (frame.getWidth(null) - girlBox[0]) / 2;
         final float y = girlPos[1];
