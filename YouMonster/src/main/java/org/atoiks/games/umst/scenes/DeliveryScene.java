@@ -30,7 +30,8 @@ public class DeliveryScene extends GameScene {
     private final Image[] wolfImg = new Image[4];
 
     private float wolfAnimTime = 0;
-    private byte wolfMoveSign = 0;
+    private byte wolfAnimFlag = 0;
+    private boolean wolfInvert = false;
 
     private final float[] childPos = new float[2];
     private final float[] childBox = new float[2];
@@ -115,26 +116,39 @@ public class DeliveryScene extends GameScene {
 
         childPos[0] -= 1;
 
-        wolfMoveSign = 0;
+        // Assumes wolf is back to idle phase,
+        // which no animating
+        wolfAnimFlag = 0;
+
         if (Input.isKeyDown(KeyEvent.VK_LEFT)) {
             if ((wolfPos[0] -= 5) < -WIDTH) {
                 wolfPos[0] = -WIDTH;
             } else {
-                wolfMoveSign = -1;
+                wolfAnimFlag = 1;
+                wolfInvert = false;
             }
         }
         if (Input.isKeyDown(KeyEvent.VK_RIGHT)) {
             if ((wolfPos[0] += 5) > WIDTH - wolfBox[0]) {
                 wolfPos[0] = WIDTH - wolfBox[0];
             } else {
-                wolfMoveSign = 1;
+                wolfAnimFlag = 1;
+                wolfInvert = true;
             }
         }
         if (Input.isKeyDown(KeyEvent.VK_UP)) {
-            if ((wolfPos[1] -= 5) < 0) wolfPos[1] = 0;
+            if ((wolfPos[1] -= 5) < 0) {
+                wolfPos[1] = 0;
+            } else {
+                wolfAnimFlag = 1;
+            }
         }
         if (Input.isKeyDown(KeyEvent.VK_DOWN)) {
-            if ((wolfPos[1] += 5) > HEIGHT - wolfBox[1]) wolfPos[1] = HEIGHT - wolfBox[1];
+            if ((wolfPos[1] += 5) > HEIGHT - wolfBox[1]) {
+                wolfPos[1] = HEIGHT - wolfBox[1];
+            } else {
+                wolfAnimFlag = 1;
+            }
         }
         return true;
     }
@@ -198,14 +212,12 @@ public class DeliveryScene extends GameScene {
         final float x = wolfPos[0];
         final float y = wolfPos[1];
 
-        if (wolfMoveSign == 0) {
-            g.drawImage(wolfImg[0], x, y);
-            return;
+        final Image frame = wolfImg[wolfAnimFlag * (int) wolfAnimTime % wolfImg.length];
+        if (wolfInvert) {
+            g.drawImage(frame, x + wolfBox[0], y, x, y + wolfBox[1]);
+        } else {
+            g.drawImage(frame, x, y);
         }
-
-        final Image frame = wolfImg[((int) wolfAnimTime) % wolfImg.length];
-        if (wolfMoveSign == -1) g.drawImage(frame, x, y);
-        else g.drawImage(frame, x + wolfBox[0], y, x, y + wolfBox[1]);
     }
 
     private void drawChild(final IGraphics g) {
