@@ -33,11 +33,11 @@ public class DeliveryScene extends GameScene {
     private byte wolfAnimFlag = 0;
     private boolean wolfInvert = false;
 
-    private final float[] childPos = new float[2];
-    private final float[] childBox = new float[2];
-    private final Image[] childImg = new Image[9];
+    private final float[] girlPos = new float[2];
+    private final float[] girlBox = new float[2];
+    private final Image[] girlImg = new Image[9];
 
-    private float childAnimTime = 0;
+    private float girlAnimTime = 0;
 
     private final int[] flowerPos = new int[120 * 2];
     private final int[] grassPos = new int[120 * 2];
@@ -66,9 +66,9 @@ public class DeliveryScene extends GameScene {
             }
         }
 
-        for (int i = 0; i < childImg.length; ++i) {
+        for (int i = 0; i < girlImg.length; ++i) {
             try {
-                childImg[i] = ImageIO.read(this.getClass().getResourceAsStream("/girl/walk_" + i + ".png"));
+                girlImg[i] = ImageIO.read(this.getClass().getResourceAsStream("/girl/walk_" + i + ".png"));
             } catch (IOException ex) {
                 System.err.println(ex);
             }
@@ -82,10 +82,10 @@ public class DeliveryScene extends GameScene {
         wolfPos[0] = 0;
         wolfPos[1] = 0;
 
-        childBox[0] = childImg[0].getWidth(null);
-        childBox[1] = childImg[0].getHeight(null);
-        childPos[0] = WIDTH;
-        childPos[1] = (HEIGHT - childBox[1]) / 2;
+        girlBox[0] = girlImg[0].getWidth(null);
+        girlBox[1] = girlImg[0].getHeight(null);
+        girlPos[0] = WIDTH;
+        girlPos[1] = (HEIGHT - girlBox[1]) / 2;
 
         final Random rnd = new Random();
         fillIntPos(rnd, flowerPos, -WIDTH, WIDTH, 0, HEIGHT);
@@ -114,19 +114,19 @@ public class DeliveryScene extends GameScene {
         // - failure: restart this section
 
         wolfAnimTime += dt * 5;
-        childAnimTime += dt * 6;
+        girlAnimTime += dt * 6;
 
         // if you reached LRRH, story continues
-        if (rectCollide(wolfPos, wolfBox, childPos, childBox)) {
+        if (rectCollide(wolfPos, wolfBox, girlPos, girlBox)) {
             return scene.gotoNextScene();
         }
 
         // if LRRH reaches grandma's house before you, restart
-        if (childPos[0] < -WIDTH) {
+        if (girlPos[0] < -WIDTH) {
             return scene.restartCurrentScene();
         }
 
-        childPos[0] -= 1;
+        girlPos[0] -= 1;
 
         // Assumes wolf is back to idle phase,
         // which no animating
@@ -208,7 +208,7 @@ public class DeliveryScene extends GameScene {
         g.drawLine(WIDTH - 30, HEIGHT / 2 + 18, WIDTH, HEIGHT / 2 + 18);
 
         this.drawWolf(g);
-        this.drawChild(g);
+        this.drawgirl(g);
     }
 
     private void drawGrass(final IGraphics g, final float px, final float py) {
@@ -232,13 +232,11 @@ public class DeliveryScene extends GameScene {
         }
     }
 
-    private void drawChild(final IGraphics g) {
-        final float x = childPos[0];
-        final float y = childPos[1];
+    private void drawgirl(final IGraphics g) {
+        final float x = girlPos[0];
+        final float y = girlPos[1];
 
-        // g.setColor(Color.red);
-        // g.drawRect(x, y, x + childBox[0], y + childBox[1]);
-        g.drawImage(childImg[(int) childAnimTime % childImg.length], x, y);
+        g.drawImage(girlImg[(int) girlAnimTime % girlImg.length], x, y);
     }
 
     @Override
