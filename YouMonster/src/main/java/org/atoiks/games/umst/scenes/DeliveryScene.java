@@ -81,10 +81,10 @@ public class DeliveryScene extends GameScene {
         wolfPos[0] = 0;
         wolfPos[1] = 0;
 
-        girlBox[0] = girlImg[0].getWidth(null);
+        girlBox[0] = 25;
         girlBox[1] = girlImg[0].getHeight(null);
         girlPos[0] = WIDTH;
-        girlPos[1] = (HEIGHT - girlBox[1]) / 2;
+        girlPos[1] = (HEIGHT - girlBox[1]) / 2 - 5;
 
         final Random rnd = new Random();
         fillIntPos(rnd, flowerPos, -WIDTH, WIDTH, 0, HEIGHT);
@@ -234,10 +234,11 @@ public class DeliveryScene extends GameScene {
     }
 
     private void drawgirl(final IGraphics g) {
-        final float x = girlPos[0];
+        final Image frame = girlImg[(int) girlAnimTime % girlImg.length];
+        final float x = girlPos[0] - (frame.getWidth(null) - girlBox[0]) / 2;
         final float y = girlPos[1];
 
-        g.drawImage(girlImg[(int) girlAnimTime % girlImg.length], x, y);
+        g.drawImage(frame, x, y);
     }
 
     @Override
