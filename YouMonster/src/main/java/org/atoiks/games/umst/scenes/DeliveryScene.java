@@ -90,8 +90,6 @@ public class DeliveryScene extends GameScene {
         final Random rnd = new Random();
         fillIntPos(rnd, flowerPos, -WIDTH, WIDTH, 0, HEIGHT);
         fillIntPos(rnd, grassPos, -WIDTH, WIDTH, 0, HEIGHT);
-
-        final int k = grassPos.length;
     }
 
     private static void fillIntPos(final Random rnd, final int[] arr, final int xlo, final int xhi, final int ylo, final int yhi) {
