@@ -16,7 +16,7 @@ public final class GameLoader extends Scene {
     private static final int BAR_END_Y = BAR_START_Y + 16;
 
     private float elapsed = 0;
-    private float scale = 1;
+    private float scale = 0.8f;
 
     @Override
     public void resize(int w, int h) {
@@ -30,10 +30,12 @@ public final class GameLoader extends Scene {
             return scene.gotoNextScene();
         // }
 
-        // if (elapsed > 1.2) {
+        // if (elapsed > 1.1) {
         //     scale = -0.8f;
+        // } else if (elapsed > 0.95 && scale > 0) {
+        //     scale = 0.05f;
         // } else if (elapsed > 0.75 && scale > 0) {
-        //     scale = 0.4f;
+        //     scale = 0.24f;
         // }
         // return true;
     }
