@@ -23,9 +23,11 @@ public final class GameLoader extends Scene {
     private float elapsed = 0;
     private float scale = 0.8f;
 
+    private final Image[] wolfImg = new Image[4];
+    private float wolfAnimTime = 0;
+
     @Override
     public void init() {
-        final Image[] wolfImg = new Image[4];
         for (int i = 0; i < wolfImg.length; ++i) {
             try {
                 wolfImg[i] = ImageIO.read(this.getClass().getResourceAsStream("/wolf/walk_" + i + ".png"));
@@ -44,6 +46,8 @@ public final class GameLoader extends Scene {
 
     @Override
     public boolean update(float dt) {
+        wolfAnimTime += dt * 5;
+
         elapsed += scale * dt;
         if (elapsed < -dt) {
             return scene.gotoNextScene();
@@ -73,5 +77,8 @@ public final class GameLoader extends Scene {
         } else {
             g.fillRect(BAR_START_X, BAR_START_Y, x2, BAR_END_Y);
         }
+
+        final Image frame = wolfImg[(int) wolfAnimTime % wolfImg.length];
+        g.drawImage(frame, (BAR_END_X - BAR_START_X) * wolfAnimTime / 30, BAR_START_Y - frame.getHeight(null));
     }
 }
