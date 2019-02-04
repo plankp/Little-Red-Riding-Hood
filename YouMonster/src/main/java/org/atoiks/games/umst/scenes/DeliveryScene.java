@@ -38,6 +38,7 @@ public class DeliveryScene extends GameScene {
 
     private float girlAnimTime = 0;
 
+    private final Color[] flowerColor = new Color[120];
     private final int[] flowerPos = new int[120 * 2];
     private final int[] grassPos = new int[120 * 2];
 
@@ -87,6 +88,12 @@ public class DeliveryScene extends GameScene {
         final Random rnd = new Random();
         fillIntPos(rnd, flowerPos, -WIDTH, WIDTH, 0, HEIGHT);
         fillIntPos(rnd, grassPos, -WIDTH, WIDTH, 0, HEIGHT);
+
+        int k = flowerColor.length;
+        for (int i = 0; i < k; ++i) {
+            final int r = rnd.nextInt(3);
+            flowerColor[i] = r == 0 ? Color.yellow : (r == 1 ? Color.cyan : Color.red);
+        }
 
         wolfAnimTime = 0;
         girlAnimTime = 0;
@@ -178,8 +185,8 @@ public class DeliveryScene extends GameScene {
             // Draw the beautiful flowers and fantastic grass!
             final int k = flowerPos.length;
 
-            g.setColor(Color.yellow);
-            for (int i = 0; i < k; i += 2) {
+            for (int i = 0, j = 0; i < k; i += 2, ++j) {
+                g.setColor(flowerColor[j]);
                 g.drawCircle(flowerPos[i], flowerPos[i + 1], 1);
             }
 
