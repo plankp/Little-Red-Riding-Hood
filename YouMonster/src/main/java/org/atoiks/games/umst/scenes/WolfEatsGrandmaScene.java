@@ -1,5 +1,7 @@
 package org.atoiks.games.umst.scenes;
 
+import java.io.IOException;
+
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Image;
@@ -7,6 +9,8 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import org.atoiks.games.framework2d.Input;
 import org.atoiks.games.framework2d.GameScene;
@@ -28,6 +32,11 @@ public class WolfEatsGrandmaScene extends GameScene {
     private float wolfAnimTime = 0;
     private boolean wolfInvert = false;
 
+    private final float[] grandmaPos = new float[2];
+    private final float[] grandmaBox = new float[2];
+
+    private Image grandmaImg; // supplied by init
+
     private static boolean rectCollide(final float[] pos1, final float[] box1, final float[] pos2, final float[] box2) {
         final float x1 = pos1[0];
         final float y1 = pos1[1];
@@ -45,6 +54,17 @@ public class WolfEatsGrandmaScene extends GameScene {
     @Override
     public void init() {
         wolfImg = (Image[]) scene.resources().get("wolfImg");
+
+        try {
+            grandmaImg = ImageIO.read(this.getClass().getResourceAsStream("/grandma/sleep.png"));
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+
+        grandmaPos[0] = -WIDTH + 100;
+        grandmaPos[1] = (HEIGHT + grandmaImg.getHeight(null)) / 2;
+        grandmaBox[0] = 30;
+        grandmaBox[1] = 28;
     }
 
     @Override
@@ -113,7 +133,27 @@ public class WolfEatsGrandmaScene extends GameScene {
         // only scroll horizontally
         g.translate(clamp(WIDTH / 2 - wolfPos[0], 0, WIDTH), 0);
 
+        this.drawGrandmaInBed(g);
         this.drawWolf(g);
+    }
+
+    private void drawGrandmaInBed(final IGraphics g) {
+        final float x = grandmaPos[0];
+        final float y = grandmaPos[1];
+
+        final float frameX = x + grandmaBox[0] + 10;
+        final float frameY = y + grandmaImg.getHeight(null);
+
+        // Bed frame
+        g.setColor(BROWN);
+        g.fillRect(x, y, frameX, frameY);
+
+        // GRANDMA!!!
+        g.drawImage(grandmaImg, x, y);
+
+        // Blanket
+        g.setColor(Color.red);
+        g.fillRect(frameX, y, x + 1.75f * grandmaImg.getWidth(null), frameY);
     }
 
     private void drawWolf(final IGraphics g) {
