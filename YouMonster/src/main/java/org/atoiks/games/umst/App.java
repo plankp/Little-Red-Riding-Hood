@@ -8,7 +8,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 
 import org.atoiks.games.framework2d.FrameInfo;
-import org.atoiks.games.framework2d.swing.Frame;
+import org.atoiks.games.framework2d.java2d.Frame;
 
 import org.atoiks.games.umst.scenes.*;
 
