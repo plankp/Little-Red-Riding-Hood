@@ -35,6 +35,11 @@ public class WolfEatsGrandmaScene extends GameScene {
     private float wolfAnimTime = 0;
     private boolean wolfInvert = false;
 
+    private final float[] girlPos = new float[2];
+
+    private Image[] girlImg; // supplied by init
+    private float girlAnimTime = 0;
+
     private final float[] grandmaPos = new float[2];
     private final float[] bedBox = new float[2];
 
@@ -57,6 +62,7 @@ public class WolfEatsGrandmaScene extends GameScene {
     @Override
     public void init() {
         wolfImg = (Image[]) scene.resources().get("wolfImg");
+        girlImg = (Image[]) scene.resources().get("girlImg");
 
         try {
             grandmaImg = ImageIO.read(this.getClass().getResourceAsStream("/grandma/sleep.png"));
@@ -77,7 +83,11 @@ public class WolfEatsGrandmaScene extends GameScene {
         wolfPos[0] = 0;
         wolfPos[1] = 0;
 
+        girlPos[0] = WIDTH;
+        girlPos[1] = (HEIGHT - girlImg[0].getHeight(null)) / 2 - 5;
+
         wolfAnimTime = 0;
+        girlAnimTime = 0;
     }
 
     @Override
@@ -89,11 +99,19 @@ public class WolfEatsGrandmaScene extends GameScene {
         // - failure: restart this section
 
         wolfAnimTime += dt * 5;
+        girlAnimTime += dt * 6;
 
         // if you touch grandma's bed, story continues
         if (rectCollide(wolfPos, wolfBox, grandmaPos, bedBox)) {
             return scene.gotoNextScene();
         }
+
+        // if LRRH reaches house before, restart
+        if (girlPos[0] < WALL_OUTER) {
+            return scene.restartCurrentScene();
+        }
+
+        girlPos[0] -= 1;
 
         boolean resetWolfTimer = true;
         if (Input.isKeyDown(KeyEvent.VK_LEFT)) {
@@ -147,6 +165,15 @@ public class WolfEatsGrandmaScene extends GameScene {
 
         this.drawGrandmaInBed(g);
         this.drawWolf(g);
+        this.drawGirl(g);
+    }
+
+    private void drawGirl(final IGraphics g) {
+        final Image frame = girlImg[(int) girlAnimTime % girlImg.length];
+        final float x = girlPos[0] - (frame.getWidth(null) - 25) / 2;
+        final float y = girlPos[1];
+
+        g.drawImage(frame, x, y);
     }
 
     private void drawGrandmaInBed(final IGraphics g) {
