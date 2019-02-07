@@ -131,6 +131,10 @@ public class WolfMeetsGirlScene extends HorizontalPage {
                 resetScrolling();
                 return true;
 // case 0x38: DONE
+            case 0x40:
+                updateMessage("Meanwhile the wolf ran straight to the grandmother's house...");
+                resetScrolling();
+                return true;
         }
         return false;
     }
@@ -152,7 +156,7 @@ public class WolfMeetsGirlScene extends HorizontalPage {
                     scene.resources().put("drawRoad", false);
                     return scene.switchToScene(1);
                 }
-                return scene.gotoNextScene();
+                return switchPhase(0x40);
             case 0x22:
                 if (timesGreeted > 1) {
                     return switchPhase(0x1);
