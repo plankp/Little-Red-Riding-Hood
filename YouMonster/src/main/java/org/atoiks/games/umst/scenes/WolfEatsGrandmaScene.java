@@ -19,9 +19,12 @@ import org.atoiks.games.framework2d.IGraphics;
 import static org.atoiks.games.umst.App.WIDTH;
 import static org.atoiks.games.umst.App.HEIGHT;
 
+import static org.atoiks.games.umst.scenes.DeliveryScene.BROWN;
+
 public class WolfEatsGrandmaScene extends GameScene {
 
-    public static final Color BROWN = new Color(0x966F33);
+    public static final Color DARK_BROWN = new Color(0x654321);
+    public static final Color DARKER_BROWN = DARK_BROWN.darker();
 
     private static final int WALL_INNER = WIDTH - 400;
     private static final int WALL_OUTER = WIDTH - 395;
@@ -158,6 +161,18 @@ public class WolfEatsGrandmaScene extends GameScene {
 
         // only scroll horizontally
         g.translate(clamp(WIDTH / 2 - wolfPos[0], 0, WIDTH / 2), 0);
+
+        // Draw floor!?
+        g.setColor(DARK_BROWN);
+        g.fillRect(-WIDTH, 0, WALL_INNER, HEIGHT);
+        g.setColor(DARKER_BROWN);
+        for (int i = -WIDTH; i < WALL_INNER; i += 20) {
+            g.drawLine(i, 0, i, HEIGHT);
+            final int next = i + 20;
+            for (int j = i - 180; j < HEIGHT; j += 60) {
+                g.drawLine(i, j, next, j);
+            }
+        }
 
         // Draw the right-side wall
         g.setColor(BROWN);
