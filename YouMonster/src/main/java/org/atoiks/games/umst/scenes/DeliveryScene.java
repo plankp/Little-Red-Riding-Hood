@@ -34,8 +34,8 @@ public class DeliveryScene extends GameScene {
 
     private final float[] girlPos = new float[2];
     private final float[] girlBox = new float[2];
-    private final Image[] girlImg = new Image[9];
 
+    private Image[] girlImg; // supplied by init
     private float girlAnimTime = 0;
 
     private final Color[] flowerColor = new Color[120];
@@ -61,14 +61,7 @@ public class DeliveryScene extends GameScene {
     @Override
     public void init() {
         wolfImg = (Image[]) scene.resources().get("wolfImg");
-
-        for (int i = 0; i < girlImg.length; ++i) {
-            try {
-                girlImg[i] = ImageIO.read(this.getClass().getResourceAsStream("/girl/walk_" + i + ".png"));
-            } catch (IOException ex) {
-                System.err.println(ex);
-            }
-        }
+        girlImg = (Image[]) scene.resources().get("girlImg");
 
         scene.resources().put("drawRoad", true);
     }
