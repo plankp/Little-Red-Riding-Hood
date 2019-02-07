@@ -212,8 +212,9 @@ public abstract class Page extends GameScene {
             int delta = 0;
 
             // Modify option by 1
-            if (Input.isKeyPressed(KeyEvent.VK_UP)) delta = -1;
-            if (Input.isKeyPressed(KeyEvent.VK_DOWN)) delta = +1;
+            final int rot = Input.getWheelRotation();
+            if (Input.isKeyPressed(KeyEvent.VK_UP) || rot > 0) delta = -1;
+            if (Input.isKeyPressed(KeyEvent.VK_DOWN) || rot < 0) delta = +1;
             option += delta;
 
             // Modify option by a full optSect
@@ -245,7 +246,7 @@ public abstract class Page extends GameScene {
             option = -1;
         }
 
-        if (Input.isKeyPressed(KeyEvent.VK_ENTER)) {
+        if (Input.isKeyPressed(KeyEvent.VK_ENTER) || Input.isMouseButtonClicked(1)) {
             if (doneScrolling()) {
                 return optionSelected(option);
             } else {
