@@ -37,7 +37,7 @@ public class App {
                 .setResizable(false)
                 .setSize(WIDTH, HEIGHT)
                 .setLoader(new GameLoader())
-                .setGameScenes(new TitleScene(), new DeliveryScene(), new WolfMeetsGirlScene(), new WolfEatsGrandmaScene());
+                .setGameScenes(new TitleScene(), new DeliveryScene(), new WolfMeetsGirlScene(), new WolfEatsGrandmaScene(), new WolfEatsGirlScene());
         final Frame frame = new Frame(info);
         try {
             frame.init();
