@@ -33,7 +33,7 @@ public class WolfEatsGrandmaScene extends GameScene {
     private boolean wolfInvert = false;
 
     private final float[] grandmaPos = new float[2];
-    private final float[] grandmaBox = new float[2];
+    private final float[] bedBox = new float[2];
 
     private Image grandmaImg; // supplied by init
 
@@ -63,8 +63,8 @@ public class WolfEatsGrandmaScene extends GameScene {
 
         grandmaPos[0] = -WIDTH + 100;
         grandmaPos[1] = (HEIGHT + grandmaImg.getHeight(null)) / 2;
-        grandmaBox[0] = 30;
-        grandmaBox[1] = 28;
+        bedBox[0] = 1.75f * grandmaImg.getWidth(null);
+        bedBox[1] = grandmaImg.getHeight(null);
     }
 
     @Override
@@ -86,6 +86,11 @@ public class WolfEatsGrandmaScene extends GameScene {
         // - failure: restart this section
 
         wolfAnimTime += dt * 5;
+
+        // if you touch grandma's bed, story continues
+        if (rectCollide(wolfPos, wolfBox, grandmaPos, bedBox)) {
+            return scene.gotoNextScene();
+        }
 
         boolean resetWolfTimer = true;
         if (Input.isKeyDown(KeyEvent.VK_LEFT)) {
@@ -141,7 +146,7 @@ public class WolfEatsGrandmaScene extends GameScene {
         final float x = grandmaPos[0];
         final float y = grandmaPos[1];
 
-        final float frameX = x + grandmaBox[0] + 10;
+        final float frameX = x + 40;
         final float frameY = y + grandmaImg.getHeight(null);
 
         // Bed frame
@@ -153,7 +158,7 @@ public class WolfEatsGrandmaScene extends GameScene {
 
         // Blanket
         g.setColor(Color.red);
-        g.fillRect(frameX, y, x + 1.75f * grandmaImg.getWidth(null), frameY);
+        g.fillRect(frameX, y, x + bedBox[0], y + bedBox[1]);
     }
 
     private void drawWolf(final IGraphics g) {
