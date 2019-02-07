@@ -23,6 +23,9 @@ public class WolfEatsGrandmaScene extends GameScene {
 
     public static final Color BROWN = new Color(0x966F33);
 
+    private static final int WALL_INNER = WIDTH - 400;
+    private static final int WALL_OUTER = WIDTH - 395;
+
     // [0]: x, [1]: y
 
     private final float[] wolfPos = new float[2];
@@ -61,7 +64,7 @@ public class WolfEatsGrandmaScene extends GameScene {
             System.err.println(ex);
         }
 
-        grandmaPos[0] = -WIDTH + 100;
+        grandmaPos[0] = -WIDTH / 2 + 10;
         grandmaPos[1] = (HEIGHT + grandmaImg.getHeight(null)) / 2;
         bedBox[0] = 1.75f * grandmaImg.getWidth(null);
         bedBox[1] = grandmaImg.getHeight(null);
@@ -94,16 +97,16 @@ public class WolfEatsGrandmaScene extends GameScene {
 
         boolean resetWolfTimer = true;
         if (Input.isKeyDown(KeyEvent.VK_LEFT)) {
-            if ((wolfPos[0] -= 5) < -WIDTH) {
-                wolfPos[0] = -WIDTH;
+            if ((wolfPos[0] -= 5) < -WIDTH / 2) {
+                wolfPos[0] = -WIDTH / 2;
             } else {
                 resetWolfTimer = false;
                 wolfInvert = false;
             }
         }
         if (Input.isKeyDown(KeyEvent.VK_RIGHT)) {
-            if ((wolfPos[0] += 5) > WIDTH - wolfBox[0]) {
-                wolfPos[0] = WIDTH - wolfBox[0];
+            if ((wolfPos[0] += 5) > WALL_INNER - wolfBox[0]) {
+                wolfPos[0] = WALL_INNER - wolfBox[0];
             } else {
                 resetWolfTimer = false;
                 wolfInvert = true;
@@ -136,7 +139,11 @@ public class WolfEatsGrandmaScene extends GameScene {
         g.clearGraphics();
 
         // only scroll horizontally
-        g.translate(clamp(WIDTH / 2 - wolfPos[0], 0, WIDTH), 0);
+        g.translate(clamp(WIDTH / 2 - wolfPos[0], 0, WIDTH / 2), 0);
+
+        // Draw the right-side wall
+        g.setColor(BROWN);
+        g.fillRect(WALL_INNER, 0, WALL_OUTER, HEIGHT);
 
         this.drawGrandmaInBed(g);
         this.drawWolf(g);
