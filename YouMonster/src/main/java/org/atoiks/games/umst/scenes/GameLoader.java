@@ -56,21 +56,21 @@ public final class GameLoader extends Scene {
 
     @Override
     public boolean update(float dt) {
-        // wolfAnimTime += dt * 5;
+        wolfAnimTime += dt * 5;
 
-        // elapsed += scale * dt;
-        // if (elapsed < -dt) {
+        elapsed += scale * dt;
+        if (elapsed < -dt) {
             return scene.gotoNextScene();
-        // }
+        }
 
-        // if (elapsed > 1.1) {
-        //     scale = -0.8f;
-        // } else if (elapsed > 0.95 && scale > 0) {
-        //     scale = 0.05f;
-        // } else if (elapsed > 0.75 && scale > 0) {
-        //     scale = 0.24f;
-        // }
-        // return true;
+        if (elapsed > 1.1) {
+            scale = -0.8f;
+        } else if (elapsed > 0.95 && scale > 0) {
+            scale = 0.05f;
+        } else if (elapsed > 0.75 && scale > 0) {
+            scale = 0.24f;
+        }
+        return true;
     }
 
     @Override
